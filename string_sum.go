@@ -33,7 +33,7 @@ func StringSum(input string) (output string, err error) {
 	sliceInput := []rune(input)
 
 	isMinus := false
-	operandCount := 0
+	var operandCount int = 0
 	var sum int64 = 0
 	for _, value := range sliceInput {
 		if value == rune(' ') || value == rune('+') {
