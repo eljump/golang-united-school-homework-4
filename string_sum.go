@@ -34,7 +34,7 @@ func StringSum(input string) (output string, err error) {
 
 	isMinus := false
 	operandCount := 0
-	sum := 0
+	var sum int64 = 0
 	for _, value := range sliceInput {
 		if value == []rune(" ")[0] || value == []rune("+")[0] {
 			continue
@@ -45,7 +45,7 @@ func StringSum(input string) (output string, err error) {
 			continue
 		}
 
-		num, err := strconv.Atoi(string(value))
+		num, err := strconv.ParseInt(string(value), 10, 32)
 		if err != nil {
 			return "", fmt.Errorf("%w", err)
 		}
@@ -66,5 +66,5 @@ func StringSum(input string) (output string, err error) {
 	if operandCount < 2 {
 		return "", fmt.Errorf("%w", errorNotTwoOperands)
 	}
-	return strconv.Itoa(sum), nil
+	return strconv.FormatInt(sum, 10), nil
 }
