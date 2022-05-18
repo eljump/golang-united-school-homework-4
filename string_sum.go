@@ -32,16 +32,24 @@ func StringSum(input string) (output string, err error) {
 	}
 	sliceInput := []rune(input)
 
-	isMinus := false
-	var operandCount int = 0
-	var sum int64 = 0
+	var isMinus int64 = 1
+	isNumBefore := false
+	var numsSlice []int64
 	for _, value := range sliceInput {
-		if value == rune(' ') || value == rune('+') {
+		if value == rune(' ') {
+			isNumBefore = false
+			continue
+		}
+
+		if value == rune('+') {
+			isNumBefore = false
+			isMinus = 1
 			continue
 		}
 
 		if value == rune('-') {
-			isMinus = true
+			isMinus = -1
+			isNumBefore = false
 			continue
 		}
 
@@ -50,21 +58,23 @@ func StringSum(input string) (output string, err error) {
 			return "", fmt.Errorf("%w", err)
 		}
 
-		operandCount += 1
-		if operandCount > 2 {
-			return "", fmt.Errorf("%w", errorNotTwoOperands)
+		if !isNumBefore {
+			num *= isMinus
+			numsSlice = append(numsSlice, num)
+			isNumBefore = true
+		} else {
+			numsSlice[len(numsSlice)-1] = (numsSlice[len(numsSlice)-1] * 10) + (num * isMinus)
 		}
 
-		if isMinus == true {
-			num *= -1
-			isMinus = false
-		}
-
-		sum += num
 	}
 
-	if operandCount < 2 {
+	if len(numsSlice) != 2 {
 		return "", fmt.Errorf("%w", errorNotTwoOperands)
+	}
+
+	var sum int64 = 0
+	for _, val := range numsSlice {
+		sum += val
 	}
 	return strconv.FormatInt(sum, 10), nil
 }
