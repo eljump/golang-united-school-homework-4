@@ -36,11 +36,11 @@ func StringSum(input string) (output string, err error) {
 	operandCount := 0
 	sum := 0
 	for _, value := range sliceInput {
-		if string(value) == " " || string(value) == "+" {
+		if value == []rune(" ")[0] || value == []rune("+")[0] {
 			continue
 		}
 
-		if string(value) == "-" {
+		if value == []rune("-")[0] {
 			isMinus = true
 			continue
 		}
@@ -55,8 +55,8 @@ func StringSum(input string) (output string, err error) {
 			return "", fmt.Errorf("%w", errorNotTwoOperands)
 		}
 
-		if isMinus {
-			num = num * -1
+		if isMinus == true {
+			num *= -1
 			isMinus = false
 		}
 
