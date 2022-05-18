@@ -50,7 +50,7 @@ func StringSum(input string) (output string, err error) {
 			return "", fmt.Errorf("%w", err)
 		}
 
-		operandCount++
+		operandCount += 1
 		if operandCount > 2 {
 			return "", fmt.Errorf("%w", errorNotTwoOperands)
 		}
